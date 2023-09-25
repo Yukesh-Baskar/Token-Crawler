@@ -19,7 +19,7 @@ import (
 )
 
 func CheckGetUsersInput(ctx *gin.Context) {
-	var contractDetails models.ContractDetails
+	var contractDetails models.FromNetworkContractDetails
 	if err := ctx.BindJSON(&contractDetails); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -48,7 +48,7 @@ func CheckGetUsersInput(ctx *gin.Context) {
 }
 
 func CheckIsCollectionExist(ctx *gin.Context) {
-	var contractDetails models.ContractDetails
+	var contractDetails models.ToNetworkContractDetails
 
 	if err := ctx.BindJSON(&contractDetails); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)

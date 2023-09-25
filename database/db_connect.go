@@ -43,5 +43,5 @@ func ConnectToDataBase() *mongo.Client {
 var ClientConnection *mongo.Client
 
 func OpenCollection(collectionName string) *mongo.Collection {
-	return ClientConnection.Database("KoinPark_migration").Collection(collectionName)
+	return ClientConnection.Database("Token_Crawler").Collection(collectionName)
 }

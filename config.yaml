@@ -1,5 +1,5 @@
 RPC_URL_ENDPOINT: "https://endpoints.omniatech.io/v1/bsc/testnet/public"
 PORT: ":9000"
 MONGO_CONNECTION_URI: "mongodb://localhost:27017/token-migration"
-DUMMY_PK : "4fef8b4e6adf227e9d1b4347b83bfb5ffed8dcda6978340d5b6678ae4140d4c8"
+DUMMY_PK : ""
 REDIS_PORT: "localhost:6379"

@@ -30,12 +30,12 @@ var LogTransferSigHash = crypto.Keccak256Hash([]byte("Transfer(address,address,u
 func GetUsers(ctx *gin.Context) {
 
 	contractChannel := make(chan interface{}, 1)
-	contractDetails, _ := ctx.Value("contractDetails").(*models.ContractDetails)
+	contractDetails, _ := ctx.Value("contractDetails").(*models.FromNetworkContractDetails)
 	go helpers.InitializeContract(contractDetails, contractChannel)
 	contractDetail := <-contractChannel
 	defer ctx.Request.Body.Close()
 
-	cd, ok := contractDetail.(models.ContractDetails)
+	cd, ok := contractDetail.(models.FromNetworkContractDetails)
 	if !ok {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": contractDetail,
@@ -110,13 +110,13 @@ func LatestBlockInfo(ctx *gin.Context) {
 
 func Migrate(ctx *gin.Context) {
 	contractChannel := make(chan interface{})
-	contractDetailsToMigrate, _ := ctx.Value("migrationContractDetails").(*models.ContractDetails)
+	contractDetailsToMigrate, _ := ctx.Value("migrationContractDetails").(*models.ToNetworkContractDetails)
 
 	go helpers.InitializeMigrationContractDetails(contractDetailsToMigrate, contractChannel)
 	migratingContractDetails := <-contractChannel
 	defer ctx.Request.Body.Close()
 
-	cd, ok := migratingContractDetails.(models.ContractDetails)
+	cd, ok := migratingContractDetails.(models.ToNetworkContractDetails)
 	if !ok {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": migratingContractDetails,

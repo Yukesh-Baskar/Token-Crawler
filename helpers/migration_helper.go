@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitializeContract(contractDetails *models.ContractDetails, contractChannel chan interface{}) {
+func InitializeContract(contractDetails *models.FromNetworkContractDetails, contractChannel chan interface{}) {
 	client, err := ethclient.Dial(contractDetails.RPC)
 
 	var e *errorshandler.NewError
@@ -23,7 +23,7 @@ func InitializeContract(contractDetails *models.ContractDetails, contractChannel
 		contractChannel <- e.HandleError()
 		return
 	}
-	contractChannel <- models.ContractDetails{
+	contractChannel <- models.FromNetworkContractDetails{
 		Client:          client,
 		ContractAddress: contractDetails.ContractAddress,
 		RPC:             contractDetails.RPC,
@@ -33,7 +33,7 @@ func InitializeContract(contractDetails *models.ContractDetails, contractChannel
 	close(contractChannel)
 }
 
-func InitializeMigrationContractDetails(contractDetails *models.ContractDetails, contractChannel chan interface{}) {
+func InitializeMigrationContractDetails(contractDetails *models.ToNetworkContractDetails, contractChannel chan interface{}) {
 	client, err := ethclient.Dial(contractDetails.RPC)
 
 	var e *errorshandler.NewError
@@ -45,7 +45,7 @@ func InitializeMigrationContractDetails(contractDetails *models.ContractDetails,
 		return
 	}
 
-	contractChannel <- models.ContractDetails{
+	contractChannel <- models.ToNetworkContractDetails{
 		Client:                client,
 		RPC:                   contractDetails.RPC,
 		ContractAddress:       contractDetails.ContractAddress,
@@ -67,7 +67,7 @@ func IsContract(address []string, cd *ethclient.Client) (res [2]bool) {
 }
 
 func CheckIsHexAddress(contractDetails interface{}, c *gin.Context) *errorshandler.NewError {
-	cd, ok := contractDetails.(models.ContractDetails)
+	cd, ok := contractDetails.(models.FromNetworkContractDetails)
 
 	if ok {
 		if !common.IsHexAddress(cd.ContractAddress) {
@@ -75,7 +75,7 @@ func CheckIsHexAddress(contractDetails interface{}, c *gin.Context) *errorshandl
 			return e
 		}
 	} else {
-		migrateDataContractData := contractDetails.(models.ContractDetails)
+		migrateDataContractData := contractDetails.(models.ToNetworkContractDetails)
 		var caDetails = []string{migrateDataContractData.ContractAddress, migrateDataContractData.TokenAddressToMigrate, migrateDataContractData.OwnerAddress}
 		for i := 0; i < len(caDetails); i++ {
 			if !common.IsHexAddress(caDetails[i]) {

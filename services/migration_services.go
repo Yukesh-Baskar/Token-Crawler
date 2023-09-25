@@ -75,7 +75,7 @@ func GetLatestBlockService() *models.User {
 	return user
 }
 
-func MigrateUsersService(auth *bind.TransactOpts, fromAddress common.Address, cd models.ContractDetails, multicallContractInstance *multicall.Multicall, tokenContractInstance *token.Token, network string, tokenAddress string) *errorshandler.NewError {
+func MigrateUsersService(auth *bind.TransactOpts, fromAddress common.Address, cd models.ToNetworkContractDetails, multicallContractInstance *multicall.Multicall, tokenContractInstance *token.Token, network string, tokenAddress string) *errorshandler.NewError {
 	var token_collection *mongo.Collection = database.OpenCollection(network)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)

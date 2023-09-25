@@ -5,7 +5,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type ContractDetails struct {
+type FromNetworkContractDetails struct {
 	Client          *ethclient.Client `json:"client" validate:"omitempty"`
 	ContractAddress string            `json:"contract_address" validate:"required"`
 	RPC             string            `json:"network_rpc" validate:"required"`
@@ -13,7 +13,7 @@ type ContractDetails struct {
 	DeployedBlock   int               `json:"deployed_block" validate:"required"`
 }
 
-type ContractDetails struct {
+type ToNetworkContractDetails struct {
 	Client                *ethclient.Client `json:"client" validate:"omitempty"`
 	RPC                   string            `json:"network_rpc" validate:"required"`
 	OwnerAddress          string            `json:"owner_address" validate:"required"`
