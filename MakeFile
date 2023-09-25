@@ -1,0 +1,11 @@
+.PHONY: run
+
+build:
+	go build -o bin/main main.go
+
+run: 
+	go run main.go
+
+watch:
+	ulimit -n 10000
+	reflex -s -r '\.go$$' make run

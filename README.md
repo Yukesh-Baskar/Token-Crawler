@@ -1,2 +1,8 @@
-# Token-Crawler
-This repository consists of token migration code, which means the token holders and their balance will be fetched from one network and will be migrated to another network.
+# TokenMigration contract build commands
+
+1. build - solc --bin --abi contract/migration_contract.sol -o build-muticall
+2. abigen - abigen --bin=build_multicall/Migrator.bin --abi=build_multicall/Migrator.abi --pkg=multicall --out=gen-multicall/migrator.go
+
+# Run make file
+
+-> make -f MakeFile run
